@@ -1,0 +1,145 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "Assets/Backgrounds/Maps/map1.tmx",
+    "expandedProjectPaths": [
+        "Assets",
+        "Assets/Backgrounds",
+        "Assets/Backgrounds/Maps",
+        ".",
+        "Assets/Backgrounds/Tiles"
+    ],
+    "fileStates": {
+        "Assets/Backgrounds/Maps/Assets/Backgrounds/Tiles/TilesetElement.tsx": {
+            "scaleInDock": 1
+        },
+        "Assets/Backgrounds/Maps/Assets/Backgrounds/Tiles/TilesetFloor.tsx": {
+            "scaleInDock": 1
+        },
+        "Assets/Backgrounds/Maps/Assets/Backgrounds/Tiles/TilesetFloorDetail.tsx": {
+            "scaleInDock": 1
+        },
+        "Assets/Backgrounds/Maps/Assets/Backgrounds/Tiles/TilesetHouse.tsx": {
+            "scaleInDock": 1
+        },
+        "Assets/Backgrounds/Maps/Assets/Backgrounds/Tiles/TilesetNature.tsx": {
+            "scaleInDock": 1
+        },
+        "Assets/Backgrounds/Maps/Assets/Backgrounds/Tiles/TilesetVillageAbandoned.tsx": {
+            "scaleInDock": 1
+        },
+        "Assets/Backgrounds/Maps/Assets/Backgrounds/Tiles/TilesetWater.tsx": {
+            "scaleInDock": 1
+        },
+        "Assets/Backgrounds/Maps/map1.tmx": {
+            "scale": 1,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 548.5,
+                "y": 447.5
+            }
+        },
+        "Assets/Backgrounds/Tiles/Pipes.tsx": {
+            "scaleInDock": 1
+        },
+        "Assets/Backgrounds/Tiles/TilesetDesert.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "Assets/Backgrounds/Tiles/TilesetDungeon.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "Assets/Backgrounds/Tiles/TilesetElement.tsx": {
+            "scaleInDock": 2,
+            "scaleInEditor": 1
+        },
+        "Assets/Backgrounds/Tiles/TilesetField.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "Assets/Backgrounds/Tiles/TilesetFloor.tsx": {
+            "scaleInDock": 1.5,
+            "scaleInEditor": 1
+        },
+        "Assets/Backgrounds/Tiles/TilesetFloorB.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "Assets/Backgrounds/Tiles/TilesetFloorDetail.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "Assets/Backgrounds/Tiles/TilesetHole.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "Assets/Backgrounds/Tiles/TilesetHouse.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "Assets/Backgrounds/Tiles/TilesetLogic.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "Assets/Backgrounds/Tiles/TilesetNature.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "Assets/Backgrounds/Tiles/TilesetRelief.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "Assets/Backgrounds/Tiles/TilesetReliefDetail.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "Assets/Backgrounds/Tiles/TilesetTowers.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "Assets/Backgrounds/Tiles/TilesetVillageAbandoned.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "Assets/Backgrounds/Tiles/TilesetWater.tsx": {
+            "scaleInDock": 2,
+            "scaleInEditor": 1
+        }
+    },
+    "last.externalTilesetPath": "C:/Users/eliot/Desktop/RuneBorn/Assets/Backgrounds/Tiles",
+    "last.imagePath": "C:/Users/eliot/Desktop/RuneBorn/Assets/Backgrounds/Tilesets",
+    "map.height": 50,
+    "map.lastUsedFormat": "tmx",
+    "map.tileHeight": 16,
+    "map.tileWidth": 16,
+    "map.width": 50,
+    "openFiles": [
+        "Assets/Backgrounds/Maps/map1.tmx",
+        "Assets/Backgrounds/Tiles/TilesetElement.tsx"
+    ],
+    "project": "Tiled.tiled-project",
+    "recentFiles": [
+        "Assets/Backgrounds/Tiles/TilesetElement.tsx",
+        "Assets/Backgrounds/Maps/map1.tmx",
+        "Assets/Backgrounds/Tiles/TilesetWater.tsx",
+        "Assets/Backgrounds/Tiles/TilesetVillageAbandoned.tsx",
+        "Assets/Backgrounds/Tiles/TilesetTowers.tsx",
+        "Assets/Backgrounds/Tiles/TilesetReliefDetail.tsx",
+        "Assets/Backgrounds/Tiles/TilesetRelief.tsx",
+        "Assets/Backgrounds/Tiles/TilesetNature.tsx",
+        "Assets/Backgrounds/Tiles/TilesetLogic.tsx",
+        "Assets/Backgrounds/Tiles/TilesetHouse.tsx",
+        "Assets/Backgrounds/Tiles/TilesetHole.tsx",
+        "Assets/Backgrounds/Tiles/TilesetFloorDetail.tsx"
+    ],
+    "tileset.lastUsedFormat": "tsx",
+    "tileset.tileSize": {
+        "height": 16,
+        "width": 16
+    },
+    "tileset.transparentColor": "#000000",
+    "tileset.useTransparentColor": true
+}
