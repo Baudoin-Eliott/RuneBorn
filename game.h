@@ -12,10 +12,11 @@ public:
 	Game();
 	~Game();
 
+	void AddWall(float x, float y, float w, float h);
 	void init(const char* title, int x, int y, int width, int height, bool fullscreen);
-	
 	void handleEvents();
 	void update();
+	
 
 	bool running() { return isRunning;};
 	void render();

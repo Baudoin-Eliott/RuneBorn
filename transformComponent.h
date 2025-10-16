@@ -14,6 +14,9 @@ public:
 	int height = 16;
 	int width = 16;
 	int scale = 2;
+	std::string state = "idle";
+	int side = 2;
+	int frame = 0;
 
 
 	int speed = 2;

@@ -9,6 +9,9 @@ private:
 	SDL_Texture* texture;
 
 	SDL_FRect srcRect, destRect;
+	const int frameDelay = 150;
+
+	int frameStart;
 
 
 public:
@@ -32,7 +35,7 @@ public:
 	void init() override {
 
 		transform = &entity->getComponent<TransformComponent>();
-
+		frameStart = SDL_GetTicks();
 		srcRect.x = srcRect.y = 0;
 		srcRect.w = transform->width;
 		srcRect.h = transform->height;
@@ -56,61 +59,57 @@ public:
 		cameraRect.y = (destRect.y - Game::camera.y);
 		cameraRect.w = destRect.w ;
 		cameraRect.h = destRect.h;
-
+		if (SDL_GetTicks() - frameStart >= frameDelay) {
+			frameStart = SDL_GetTicks();
+			std::cout << "teste" << std::endl;
+			nextTex();
+		}
 		TextureManager::Draw(texture, srcRect, cameraRect);
 	}
 
+	void nextTex() {
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+		if (transform->state == "walk") {
+			srcRect.x = transform->side * transform->width;
+			srcRect.y = 32 + transform->frame * transform->height;
+			transform->frame = (transform->frame + 1) % 3;
+		}
+		else if (transform->state == "attack") {
+			transform->frame = 4;
+			srcRect.x = transform->side * transform->width;
+			srcRect.y = transform->frame * transform->height;
+		}
+		else if (transform->state == "jump") {
+			transform->frame = 5;
+			srcRect.x = transform->side * transform->width;
+			srcRect.y = transform->frame * transform->height;
+			transform->state = "idle";
+		}
+		else if (transform->state == "hit") {
+			transform->frame = 6;
+			srcRect.x = transform->width;
+			srcRect.y = transform->frame * transform->height;
+			transform->state = "idle";
+		}
+		else if (transform->state == "dead") {
+			transform->frame = 6;
+			srcRect.x = 0;
+			srcRect.y = transform->frame * transform->height;
+		}
+		else if (transform->state == "sp1") {
+			transform->frame = 6;
+			srcRect.x = 2 * transform->width;
+			srcRect.y = transform->frame * transform->height;
+		}
+		else if (transform->state == "sp2") {
+			transform->frame = 6;
+			srcRect.x = 3 * transform->width;
+			srcRect.y = transform->frame * transform->height;
+		}
+		else {
+			transform->frame = 0;
+			srcRect.x = transform->side * transform->width;
+			srcRect.y = 0;
+		}
+	}
 };

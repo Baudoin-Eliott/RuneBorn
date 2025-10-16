@@ -27,12 +27,21 @@ auto& wall(manager.addEntity());
 auto& cameraEntity(manager.addEntity());
 
 
+
 Game::Game() {
 
 }
 Game::~Game() {
 
 }
+
+void Game::AddWall(float x, float y, float w, float h) {
+	auto& wall(manager.addEntity());
+	wall.addComponent<TransformComponent>(x, y, w, h, 1);
+	wall.addComponent<ColliderComponent>("Wall");
+}
+
+
 
 void Game::init(const char* title, int x, int y, int width, int height, bool fullscreen) {
 

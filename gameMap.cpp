@@ -139,7 +139,26 @@ void GameMap::LoadMap(const char* path) {
 
         layers.push_back(layer);
         std::cout << "Layer " << layer.name << " loaded avec " << layer.tiles.size() << " tiles." << std::endl;
+    
     }
+
+    for (tinyxml2::XMLElement* objElem = mapElem->FirstChildElement("objectgroup"); objElem; objElem = objElem->NextSiblingElement("objectgroup")) {
+		if (objElem->Attribute("name") && std::string(objElem->Attribute("name")) == "collisions") {
+			for (tinyxml2::XMLElement* object = objElem->FirstChildElement("object"); object; object = object->NextSiblingElement("object")) {
+				int x = object->IntAttribute("x");
+				int y = object->IntAttribute("y");
+				int width = object->IntAttribute("width");
+				int height = object->IntAttribute("height");
+
+
+				Game::AddWall(x, y, width, height);
+				std::cout << "Collision box at (" << x << ", " << y << ") size (" << width << "x" << height << ")" << std::endl;
+			}
+		}
+
+
+
+
 
     std::cout << "Chargement TMX terminé avec " << tilesets.size() << " tilesets et "
         << layers.size() << " layers." << std::endl;
