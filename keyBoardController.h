@@ -47,6 +47,9 @@ public:
 				transform->velocity.y = 0;
 				transform->velocity.x = -1;
 				break;
+			case(SDLK_E):
+				Game::zoom -= 0.0001f;
+				std::cout << "Zoom: " << Game::zoom << std::endl;
 			default:
 				break;
 			}

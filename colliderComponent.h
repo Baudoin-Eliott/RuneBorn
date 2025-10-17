@@ -33,8 +33,8 @@ public:
 		collider.x = static_cast<int>(transform->position.x);
 		collider.y = static_cast<int>(transform->position.y);
 
-		collider.w = transform->width * transform->scale;
-		collider.h = transform->height * transform->scale;
+		collider.w = transform->width * transform->scale * Game::zoom;
+		collider.h = transform->height * transform->scale * Game::zoom;
 	}
 
 

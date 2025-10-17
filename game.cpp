@@ -23,7 +23,6 @@ std::vector<ColliderComponent*> Game::colliders;
 Manager manager;
 
 auto& player(manager.addEntity());
-auto& wall(manager.addEntity());
 auto& cameraEntity(manager.addEntity());
 
 
@@ -60,9 +59,9 @@ void Game::init(const char* title, int x, int y, int width, int height, bool ful
 	map = new GameMap();
 
 	//ecs implementation
-	map->LoadMap("Assets/Backgrounds/Maps/map1.tmx");
+	map->LoadMap("Assets/Backgrounds/Maps/map1.tmx", 2);
 
-	player.addComponent<TransformComponent>(200.f, 200.f, 16, 16, 1 );
+	player.addComponent<TransformComponent>(500.f, 500.f, 16, 16, 1);
 	player.addComponent<SpriteComponent>("Assets/Actor/Characters/Boy/SpriteSheet.png");
 	player.addComponent<ColliderComponent>("Player");
 	player.addComponent<KeyBoardController>();
@@ -90,22 +89,32 @@ void Game::update() {
 	manager.refresh();
 	manager.update();
 	cameraEntity.update();
+	bool collided = false;
+	SDL_FRect a = player.getComponent<TransformComponent>().newPos;
+	SDL_FRect playerRect = { a.x, a.y, a.w * 2, a.h * 2 };
 	for (auto cc : colliders) {
-		if (Collision::AABB(player.getComponent<ColliderComponent>(), *cc)) {
+		SDL_FRect rect = { cc->collider.x * zoom, cc->collider.y * zoom , cc->collider.w, cc->collider.h};
+		if (Collision::AABB(playerRect, rect)) {
 			if (cc->tag == "Wall") {
-				player.getComponent<TransformComponent>().velocity * -1;
+				collided = true;
 			}
 		}
 	}
+	if (!collided) player.getComponent<TransformComponent>().NewPos();
+
+	//draw the playerRect for testing
+
+
+
 
 }
 void Game::render() {
 
 	SDL_RenderClear(renderer);
-	map->DrawMap();
+	map->DrawMap_Bottom();
 	manager.draw();
+	map->DrawMap_Up();
 	SDL_RenderPresent(renderer);
-
 
 }
 void Game::clean() {

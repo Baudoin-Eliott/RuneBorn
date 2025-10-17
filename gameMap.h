@@ -26,8 +26,11 @@ public:
     GameMap();
     ~GameMap();
 
-    void LoadMap(const char* path);
-    void DrawMap();
+    void LoadMap(const char* path, int layer_sep);
+    void DrawMap_Bottom();
+    void DrawMap_Up();
+	int nb_layer;
+	int layer_separation;
 
 private:
     SDL_FRect src, dest;

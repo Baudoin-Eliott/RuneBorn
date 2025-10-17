@@ -9,12 +9,12 @@ class TransformComponent : public Component {
 public:
 
 	Vector2D position;
-	Vector2D newPosition;
+	SDL_FRect newPos;
 	Vector2D velocity;
 
 	int height = 16;
 	int width = 16;
-	int scale = 2;
+	int scale;
 	std::string state = "idle";
 	int side = 2;
 	int frame = 0;
@@ -53,7 +53,12 @@ public:
 
 	void update() override {
 		
+		newPos = { position.x + velocity.x * speed, position.y + velocity.y * speed ,(float) width * scale , (float) height * scale};
+	}
+
+	void NewPos() {
 		position.x += velocity.x * speed;
 		position.y += velocity.y * speed;
 	}
+
 };

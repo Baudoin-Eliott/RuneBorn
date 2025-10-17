@@ -25,7 +25,8 @@ Tileset* GameMap::GetTilesetForGID(int gid) {
     return last; // retourne le tileset correspondant au GID
 }
 
-void GameMap::LoadMap(const char* path) {
+void GameMap::LoadMap(const char* path, int layer_sep) {
+	layer_separation = layer_sep;
     tinyxml2::XMLDocument doc;
     if (doc.LoadFile(path) != tinyxml2::XML_SUCCESS) {
         std::cerr << "Impossible de charger le fichier TMX : " << path << std::endl;
@@ -94,6 +95,7 @@ void GameMap::LoadMap(const char* path) {
 
 
     // Charger les layers
+    int i = 0;
     for (tinyxml2::XMLElement* layerElem = mapElem->FirstChildElement("layer"); layerElem; layerElem = layerElem->NextSiblingElement("layer")) {
         Layer layer;
         const char* layerName = layerElem->Attribute("name");
@@ -105,8 +107,8 @@ void GameMap::LoadMap(const char* path) {
 
         layer.width = layerElem->IntAttribute("width");
         layer.height = layerElem->IntAttribute("height");
-        Game::currentSizeMapX = layer.width;
-        Game::currentSizeMapY = layer.height;
+        Game::currentSizeMapX = layer.width * Game::zoom;
+        Game::currentSizeMapY = layer.height*Game::zoom;
 
         tinyxml2::XMLElement* dataElem = layerElem->FirstChildElement("data");
         if (!dataElem) {
@@ -139,8 +141,9 @@ void GameMap::LoadMap(const char* path) {
 
         layers.push_back(layer);
         std::cout << "Layer " << layer.name << " loaded avec " << layer.tiles.size() << " tiles." << std::endl;
-    
+		i++;
     }
+	nb_layer = i;
 
     for (tinyxml2::XMLElement* objElem = mapElem->FirstChildElement("objectgroup"); objElem; objElem = objElem->NextSiblingElement("objectgroup")) {
         if (objElem->Attribute("name") && std::string(objElem->Attribute("name")) == "Collision") {
@@ -152,7 +155,7 @@ void GameMap::LoadMap(const char* path) {
                 int height = object->IntAttribute("height");
 
 
-                Game::AddWall(x, y, width, height);
+                Game::AddWall(x, y, height, width);
             }
         }
 
@@ -165,8 +168,44 @@ void GameMap::LoadMap(const char* path) {
 }
 
 
-void GameMap::DrawMap() {
-    for (const Layer& layer : layers) {
+void GameMap::DrawMap_Bottom() {
+    for (int i = 0; i < layer_separation; i++) {
+        const Layer& layer = layers[i];
+        for (int row = 0; row < layer.height; ++row) {
+            for (int col = 0; col < layer.width; ++col) {
+                int gid = layer.tiles[row * layer.width + col];
+                if (gid == 0) continue; // 0 = tile vide
+
+                Tileset* ts = GetTilesetForGID(gid);
+                if (!ts) continue;
+
+                int localID = gid - ts->firstGID;
+                int tx = (localID % ts->columns) * ts->tileWidth;
+                int ty = (localID / ts->columns) * ts->tileHeight;
+
+                src.x = tx;
+                src.y = ty;
+                src.w = ts->tileWidth;
+                src.h = ts->tileHeight;
+
+
+                //ici pb camera scrolling
+                float width = ts->tileWidth * Game::zoom;
+                float height = ts->tileHeight * Game::zoom;
+
+                dest.x = (col * width - Game::camera.x);
+                dest.y = (row * height - Game::camera.y);
+                dest.w = width;
+                dest.h = height;
+
+                TextureManager::Draw(ts->texture, src, dest);
+            }
+        }
+    }
+}
+void GameMap::DrawMap_Up() {
+    for (int i = layer_separation; i < nb_layer; i++) {
+        const Layer& layer = layers[i];
         for (int row = 0; row < layer.height; ++row) {
             for (int col = 0; col < layer.width; ++col) {
                 int gid = layer.tiles[row * layer.width + col];

@@ -45,8 +45,8 @@ public:
             camera.x = targetCamX;
             camera.y = targetCamY;
             
-            int mapSizeX = Game::currentSizeMapX * Game::currentTileSizeX - Game::camera.w / Game::zoom;
-            int mapSizeY = Game::currentSizeMapY * Game::currentTileSizeY - Game::camera.h / Game::zoom;
+            int mapSizeX = Game::currentSizeMapX * Game::currentTileSizeX - Game::camera.w;
+            int mapSizeY = Game::currentSizeMapY * Game::currentTileSizeY - Game::camera.h;
 
 
             if (camera.x >= 0) {
