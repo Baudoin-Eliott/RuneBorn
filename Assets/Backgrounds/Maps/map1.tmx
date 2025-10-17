@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="50" height="50" tilewidth="16" tileheight="16" infinite="0" nextlayerid="6" nextobjectid="44">
- <tileset firstgid="1" source="../../../../../../Desktop/RuneBorn/Assets/Backgrounds/Tiles/TilesetFloor.tsx"/>
- <tileset firstgid="573" source="../../../../../../Desktop/RuneBorn/Assets/Backgrounds/Tiles/TilesetNature.tsx"/>
- <tileset firstgid="1077" source="../../../../../../Desktop/RuneBorn/Assets/Backgrounds/Tiles/TilesetFloorDetail.tsx"/>
- <tileset firstgid="1157" source="../../../../../../Desktop/RuneBorn/Assets/Backgrounds/Tiles/TilesetHouse.tsx"/>
- <tileset firstgid="1916" source="../../../../../../Desktop/RuneBorn/Assets/Backgrounds/Tiles/TilesetVillageAbandoned.tsx"/>
- <tileset firstgid="2156" source="../../../../../../Desktop/RuneBorn/Assets/Backgrounds/Tiles/TilesetElement.tsx"/>
- <tileset firstgid="2396" source="../../../../../../Desktop/RuneBorn/Assets/Backgrounds/Tiles/TilesetWater.tsx"/>
+ <tileset firstgid="1" source="../Tiles/TilesetFloor.tsx"/>
+ <tileset firstgid="573" source="../Tiles/TilesetNature.tsx"/>
+ <tileset firstgid="1077" source="../Tiles/TilesetFloorDetail.tsx"/>
+ <tileset firstgid="1157" source="../Tiles/TilesetHouse.tsx"/>
+ <tileset firstgid="1916" source="../Tiles/TilesetVillageAbandoned.tsx"/>
+ <tileset firstgid="2156" source="../Tiles/TilesetElement.tsx"/>
+ <tileset firstgid="2396" source="../Tiles/TilesetWater.tsx"/>
  <layer id="1" name="Floor" width="50" height="50">
   <data encoding="csv">
 276,276,276,276,276,276,276,276,276,276,276,276,276,276,276,276,276,276,276,276,276,276,276,276,276,276,276,276,276,276,276,276,276,276,276,276,276,276,276,276,276,276,276,276,276,276,276,276,276,276,

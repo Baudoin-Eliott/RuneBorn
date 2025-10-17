@@ -143,23 +143,23 @@ void GameMap::LoadMap(const char* path) {
     }
 
     for (tinyxml2::XMLElement* objElem = mapElem->FirstChildElement("objectgroup"); objElem; objElem = objElem->NextSiblingElement("objectgroup")) {
-		if (objElem->Attribute("name") && std::string(objElem->Attribute("name")) == "collisions") {
-			for (tinyxml2::XMLElement* object = objElem->FirstChildElement("object"); object; object = object->NextSiblingElement("object")) {
-				int x = object->IntAttribute("x");
-				int y = object->IntAttribute("y");
-				int width = object->IntAttribute("width");
-				int height = object->IntAttribute("height");
+        if (objElem->Attribute("name") && std::string(objElem->Attribute("name")) == "Collision") {
+
+            for (tinyxml2::XMLElement* object = objElem->FirstChildElement("object"); object; object = object->NextSiblingElement("object")) {
+                int x = object->IntAttribute("x");
+                int y = object->IntAttribute("y");
+                int width = object->IntAttribute("width");
+                int height = object->IntAttribute("height");
 
 
-				Game::AddWall(x, y, width, height);
-				std::cout << "Collision box at (" << x << ", " << y << ") size (" << width << "x" << height << ")" << std::endl;
-			}
-		}
+                Game::AddWall(x, y, width, height);
+            }
+        }
 
 
 
 
-
+    }
     std::cout << "Chargement TMX terminé avec " << tilesets.size() << " tilesets et "
         << layers.size() << " layers." << std::endl;
 }
@@ -184,10 +184,15 @@ void GameMap::DrawMap() {
                 src.w = ts->tileWidth;
                 src.h = ts->tileHeight;
 
-                dest.x = (col * ts->tileWidth - Game::camera.x) * Game::zoom;
-                dest.y = (row * ts->tileHeight - Game::camera.y) * Game::zoom;
-                dest.w = ts->tileWidth * Game::zoom;
-                dest.h = ts->tileHeight * Game::zoom;
+
+                //ici pb camera scrolling
+                int width = ts->tileWidth * Game::zoom;
+                int height = ts->tileHeight * Game::zoom;
+
+                dest.x = (col * width - Game::camera.x);
+                dest.y = (row * height - Game::camera.y);
+                dest.w = width;
+                dest.h = height;
 
                 TextureManager::Draw(ts->texture, src, dest);
             }

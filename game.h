@@ -8,11 +8,16 @@ class ColliderComponent;
 
 class Game {
 
+
+private:
+	int count = 0;
+	bool isRunning;
+	SDL_Window* window;
+
 public:
 	Game();
 	~Game();
 
-	void AddWall(float x, float y, float w, float h);
 	void init(const char* title, int x, int y, int width, int height, bool fullscreen);
 	void handleEvents();
 	void update();
@@ -22,7 +27,7 @@ public:
 	void render();
 	void clean();
 
-	static void AddTile(int id, int x, int y);
+	static void AddWall(float x, float y, float w, float h);
 
 	static SDL_Renderer* renderer;
 	static SDL_Event event;
@@ -34,8 +39,4 @@ public:
 	static int currentTileSizeX;
 	static int currentTileSizeY;
 
-private:
-	int count = 0;
-	bool isRunning;
-	SDL_Window* window;
 };

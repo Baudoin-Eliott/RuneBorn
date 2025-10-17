@@ -62,7 +62,7 @@ void Game::init(const char* title, int x, int y, int width, int height, bool ful
 	//ecs implementation
 	map->LoadMap("Assets/Backgrounds/Maps/map1.tmx");
 
-	player.addComponent<TransformComponent>(50.f, 50.f);
+	player.addComponent<TransformComponent>(200.f, 200.f, 16, 16, 1 );
 	player.addComponent<SpriteComponent>("Assets/Actor/Characters/Boy/SpriteSheet.png");
 	player.addComponent<ColliderComponent>("Player");
 	player.addComponent<KeyBoardController>();
@@ -91,8 +91,13 @@ void Game::update() {
 	manager.update();
 	cameraEntity.update();
 	for (auto cc : colliders) {
-		Collision::AABB(player.getComponent<ColliderComponent>(), *cc);
+		if (Collision::AABB(player.getComponent<ColliderComponent>(), *cc)) {
+			if (cc->tag == "Wall") {
+				player.getComponent<TransformComponent>().velocity * -1;
+			}
+		}
 	}
+
 }
 void Game::render() {
 

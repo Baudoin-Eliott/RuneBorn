@@ -9,6 +9,7 @@ class TransformComponent : public Component {
 public:
 
 	Vector2D position;
+	Vector2D newPosition;
 	Vector2D velocity;
 
 	int height = 16;
@@ -19,7 +20,7 @@ public:
 	int frame = 0;
 
 
-	int speed = 2;
+	int speed = 4;
 
 	TransformComponent() { 
 
@@ -51,10 +52,8 @@ public:
 
 
 	void update() override {
+		
 		position.x += velocity.x * speed;
 		position.y += velocity.y * speed;
 	}
-
-
-
 };

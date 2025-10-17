@@ -53,15 +53,14 @@ public:
 
 	void draw() override {
 
-		
 		SDL_FRect cameraRect = destRect;
+
 		cameraRect.x = (destRect.x - Game::camera.x);
 		cameraRect.y = (destRect.y - Game::camera.y);
-		cameraRect.w = destRect.w ;
-		cameraRect.h = destRect.h;
+		cameraRect.w = destRect.w * Game::zoom;
+		cameraRect.h = destRect.h * Game::zoom;
 		if (SDL_GetTicks() - frameStart >= frameDelay) {
 			frameStart = SDL_GetTicks();
-			std::cout << "teste" << std::endl;
 			nextTex();
 		}
 		TextureManager::Draw(texture, srcRect, cameraRect);
