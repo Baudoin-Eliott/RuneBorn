@@ -39,6 +39,9 @@
     <ClCompile Include="tinyxml2.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
+    <ClCompile Include="runeSystem.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.h">
@@ -85,6 +88,9 @@
     </ClInclude>
     <ClInclude Include="cameraComponent.h">
       <Filter>Fichiers d%27en-tête\ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="runeSystem.h">
+      <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -137,6 +137,7 @@
     <ClCompile Include="game.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="gameMap.cpp" />
+    <ClCompile Include="runeSystem.cpp" />
     <ClCompile Include="textureManager.cpp" />
     <ClCompile Include="tinyxml2.cpp" />
     <ClCompile Include="vector2D.cpp" />
@@ -151,6 +152,7 @@
     <ClInclude Include="gameObject.h" />
     <ClInclude Include="keyBoardController.h" />
     <ClInclude Include="gameMap.h" />
+    <ClInclude Include="runeSystem.h" />
     <ClInclude Include="tileComponent.h" />
     <ClInclude Include="tinyxml2.h" />
     <ClInclude Include="transformComponent.h" />

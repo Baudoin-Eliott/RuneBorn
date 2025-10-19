@@ -10,14 +10,12 @@ public:
 	TransformComponent* transform;
 
 	void init() override {
-
 		transform = &entity->getComponent<TransformComponent>();
 	}
 
 	void update() override {
 
 		if (Game::event.type == SDL_EVENT_KEY_DOWN) {
-
 			switch (Game::event.key.key)
 			{
 			case (SDLK_Z):
@@ -25,7 +23,7 @@ public:
 				transform->state = "walk";
 				transform->velocity.x = 0;
 				transform->velocity.y = -1;
-				
+
 				break;
 
 			case (SDLK_S):
@@ -48,15 +46,14 @@ public:
 				transform->velocity.x = -1;
 				break;
 			case(SDLK_E):
-				Game::zoom -= 0.0001f;
-				std::cout << "Zoom: " << Game::zoom << std::endl;
+				if (Game::runeSystem.isCasting == false) Game::runeSystem.openRuneMenu(9);
+				else Game::runeSystem.closeRuneMenu();
+
 			default:
 				break;
 			}
 		}
-
 		if (Game::event.type == SDL_EVENT_KEY_UP) {
-
 			switch (Game::event.key.key)
 			{
 			case (SDLK_Z):
@@ -79,9 +76,33 @@ public:
 			default:
 				break;
 			}
+
 		}
+		if (Game::event.type == SDL_EVENT_MOUSE_BUTTON_DOWN) {
+			switch (Game::event.button.button) {
 
+			case(SDL_BUTTON_LEFT):
+				if (Game::runeSystem.isCasting) {
+					int closestPoint = Game::runeSystem.FindClosestPoint(
+						Vector2D(Game::event.button.x, Game::event.button.y)
+					);
 
-
+					if (closestPoint != -1) {
+						Game::runeSystem.isDrawing = true;
+						Game::runeSystem.connections.push_back(closestPoint);
+					}
+				}
+				break;
+			}
+		}
+		if (Game::event.type == SDL_EVENT_MOUSE_BUTTON_UP){
+			switch (Game::event.button.button) {
+			case (SDL_BUTTON_LEFT):
+				if (Game::runeSystem.isCasting && !Game::runeSystem.connections.empty()) {
+					Game::runeSystem.ComparePattern(Game::runeSystem.closeRuneMenu());
+				}
+				break;
+			}
+		}
 	}
 };

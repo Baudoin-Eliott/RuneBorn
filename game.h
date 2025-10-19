@@ -3,8 +3,10 @@
 #include<SDL3_image/SDL_image.h>
 #include<iostream>
 #include<vector>
+#include"runeSystem.h"
 
 class ColliderComponent;
+class RuneSystem;
 
 class Game {
 
@@ -29,6 +31,7 @@ public:
 
 	static void AddWall(float x, float y, float w, float h);
 
+	static RuneSystem runeSystem;
 	static SDL_Renderer* renderer;
 	static SDL_Event event;
 	static std::vector<ColliderComponent*> colliders;

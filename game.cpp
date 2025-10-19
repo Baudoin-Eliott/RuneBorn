@@ -1,3 +1,4 @@
+#include <algorithm>
 #include "game.h"
 #include "textureManager.h"
 #include "gameMap.h"
@@ -7,6 +8,7 @@
 
 GameMap* map;
 
+RuneSystem Game::runeSystem;
 SDL_Renderer* Game::renderer = nullptr;
 SDL_Event Game::event;
 
@@ -59,7 +61,7 @@ void Game::init(const char* title, int x, int y, int width, int height, bool ful
 	map = new GameMap();
 
 	//ecs implementation
-	map->LoadMap("Assets/Backgrounds/Maps/map1.tmx", 2);
+	map->LoadMap("Assets/Backgrounds/Maps/map1.tmx", 3);
 
 	player.addComponent<TransformComponent>(500.f, 500.f, 16, 16, 1);
 	player.addComponent<SpriteComponent>("Assets/Actor/Characters/Boy/SpriteSheet.png");
@@ -89,24 +91,42 @@ void Game::update() {
 	manager.refresh();
 	manager.update();
 	cameraEntity.update();
+
 	bool collided = false;
 	SDL_FRect a = player.getComponent<TransformComponent>().newPos;
-	SDL_FRect playerRect = { a.x, a.y, a.w * 2, a.h * 2 };
+	SDL_FRect playerRect = { a.x + a.w / 5, a.y + a.h, a.w * 2 - (a.w / 5) * 2, a.h };
+
 	for (auto cc : colliders) {
-		SDL_FRect rect = { cc->collider.x * zoom, cc->collider.y * zoom , cc->collider.w, cc->collider.h};
+		SDL_FRect rect = { cc->collider.x * zoom, cc->collider.y * zoom, cc->collider.w, cc->collider.h };
 		if (Collision::AABB(playerRect, rect)) {
 			if (cc->tag == "Wall") {
 				collided = true;
 			}
 		}
 	}
+
+	// Détection de nouveaux points pendant le tracé
+	if (runeSystem.isDrawing && !runeSystem.connections.empty()) {
+		int closestPoint = runeSystem.FindClosestPoint(Vector2D(
+			event.motion.x,  // MOTION !!!!
+			event.motion.y
+		));
+
+		if (closestPoint != -1){
+			if (std::find(runeSystem.connections.begin(),
+				runeSystem.connections.end(),
+				closestPoint) == runeSystem.connections.end()) {
+					runeSystem.connections.push_back(closestPoint);
+			}
+			if (closestPoint == runeSystem.connections[0] && runeSystem.connections.size() > 2) {
+				runeSystem.connections.push_back(closestPoint);
+				runeSystem.ComparePattern(runeSystem.closeRuneMenu());
+				std::cout << "Pattern tracé avec " << runeSystem.connections.size() << " points" << std::endl;
+			}
+		}
+	}
+
 	if (!collided) player.getComponent<TransformComponent>().NewPos();
-
-	//draw the playerRect for testing
-
-
-
-
 }
 void Game::render() {
 
@@ -114,6 +134,9 @@ void Game::render() {
 	map->DrawMap_Bottom();
 	manager.draw();
 	map->DrawMap_Up();
+	if (runeSystem.isCasting) {
+		runeSystem.DrawRuneMenu();
+	}
 	SDL_RenderPresent(renderer);
 
 }
