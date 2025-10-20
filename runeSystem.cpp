@@ -2,6 +2,10 @@
 #include "textureManager.h"
 #include <iostream>
 #include <cmath>
+#include <nlohmann/json.hpp>
+#include <fstream>
+
+using json = nlohmann::json;
 
 RuneSystem::RuneSystem() {
     isCasting = false;
@@ -112,13 +116,42 @@ void RuneSystem::drawBack() {
 void RuneSystem::ComparePattern(std::vector<int> userPattern)
 {
 
+	std::ifstream file("Assets/Datas/sort.json");
+    json data;
+	file >> data;
+	std::vector<std::vector<int>> spellPatterns;
+    std::string sort;
+	int minSum = 9999;
+    for (int i = difficulty; i > 1; i--) {
+		std::string levelKey = "Lvl" + std::to_string(i);
+        if (!data[levelKey].is_null()) {
 
+            for (auto it = data[levelKey].begin(); it != data[levelKey].end(); ++it) {
+                std::string spellName = it.key();
+                auto& patternJson = it.value();
 
+                spellPatterns = patternJson["pattern"].get<std::vector<std::vector<int>>>();
+				int sum = 0;
+				for (int j = 0; j < userPattern.size(); j++) {
+                    int id = userPattern[j];
+                    if (id % i > spellPatterns.size() - 1 || id / i > spellPatterns[id % i].size() - 1) {
+                        sum += 5;
+						continue;
+                    }
+                    sum += spellPatterns[id % i][id / i];
+				}
+                sum += abs((int)(patternJson["value"] - userPattern.size() - 1)) * 5;
+				if (sum < minSum) {
+					minSum = sum;
+					sort = spellName;
+				}
+				
+                
+            }
 
-
-
-
-
+        }
+    }
+	std::cout << "Le sort le plus proche est : " << sort << " avec une différence de " << minSum << std::endl;
 }
 
 int RuneSystem::FindClosestPoint(Vector2D screenPos) {

@@ -33,7 +33,7 @@ public:
     std::vector<int> closeRuneMenu();
     void DrawRuneMenu();
     void drawBack();
-    static void ComparePattern(std::vector<int> userPattern);
+    void ComparePattern(std::vector<int> userPattern);
 
     int FindClosestPoint(Vector2D screenPos);
     Tuple2f getPointPosition(int pointId);
