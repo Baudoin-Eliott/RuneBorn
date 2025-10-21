@@ -16,6 +16,12 @@
     <Filter Include="Fichiers d%27en-tête\ECS">
       <UniqueIdentifier>{7743ba68-2509-4983-9701-acc95983b7b4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Fichiers d%27en-tête\Items">
+      <UniqueIdentifier>{94121725-5590-41c0-af98-b86c290c8421}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\Items">
+      <UniqueIdentifier>{8c7f839f-9c8d-4bea-a2c4-8e3036b22156}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -41,6 +47,18 @@
     </ClCompile>
     <ClCompile Include="runeSystem.cpp">
       <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Item.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="MainCharacter.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Character.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="MagicHelper.cpp">
+      <Filter>Fichiers sources\Items</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -91,6 +109,27 @@
     </ClInclude>
     <ClInclude Include="runeSystem.h">
       <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="MainCharacter.h">
+      <Filter>Fichiers d%27en-tête\ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="Item.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemEffect.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="MagicHelper.h">
+      <Filter>Fichiers d%27en-tête\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="Items.h">
+      <Filter>Fichiers d%27en-tête\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="Character.h">
+      <Filter>Fichiers d%27en-tête\ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>Fichiers d%27en-tête\ECS</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

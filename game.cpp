@@ -5,6 +5,7 @@
 #include "components.h"
 #include "vector2D.h"
 #include "collision.h"
+#include "Items.h"
 
 GameMap* map;
 
@@ -67,6 +68,14 @@ void Game::init(const char* title, int x, int y, int width, int height, bool ful
 	player.addComponent<SpriteComponent>("Assets/Actor/Characters/Boy/SpriteSheet.png");
 	player.addComponent<ColliderComponent>("Player");
 	player.addComponent<KeyBoardController>();
+	player.addComponent<MainCharacter>();
+	Item* item = new Item{
+		MISC,
+		"La magie de soins pour les debutant !",
+		"Permet de visualiser les runes de soin.",
+		new MagicHelperEffect("FireBall", 4)
+	};
+	player.getComponent<MainCharacter>().PutItemInPocket(item, 1);
 
 	cameraEntity.addComponent<CameraComponent>(width, height);
 	cameraEntity.getComponent<CameraComponent>().setTarget(&player);
@@ -91,10 +100,13 @@ void Game::update() {
 	manager.refresh();
 	manager.update();
 	cameraEntity.update();
+	player.getComponent<MainCharacter>().Update();
 
 	bool collided = false;
 	SDL_FRect a = player.getComponent<TransformComponent>().newPos;
 	SDL_FRect playerRect = { a.x + a.w / 5, a.y + a.h, a.w * 2 - (a.w / 5) * 2, a.h };
+
+
 
 	for (auto cc : colliders) {
 		SDL_FRect rect = { cc->collider.x * zoom, cc->collider.y * zoom, cc->collider.w, cc->collider.h };
@@ -120,8 +132,8 @@ void Game::update() {
 			}
 			if (closestPoint == runeSystem.connections[0] && runeSystem.connections.size() > 2) {
 				runeSystem.connections.push_back(closestPoint);
+				
 				runeSystem.ComparePattern(runeSystem.closeRuneMenu());
-				std::cout << "Pattern tracé avec " << runeSystem.connections.size() << " points" << std::endl;
 			}
 		}
 	}

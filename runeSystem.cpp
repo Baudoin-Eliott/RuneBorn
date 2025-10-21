@@ -1,178 +1,206 @@
 #include "runeSystem.h"
 #include "textureManager.h"
+#include "MagicHelper.h"  
 #include <iostream>
 #include <cmath>
 #include <nlohmann/json.hpp>
 #include <fstream>
 
+
 using json = nlohmann::json;
 
 RuneSystem::RuneSystem() {
-    isCasting = false;
-    isDrawing = false;
-    difficulty = 0;
-    spacingX = 0;
-    spacingY = 0;
-    tolerance = 20.0f;
-    frame = 0;
-    frameStart = 0;
-    frameDelay = 100;
+	isCasting = false;
+	isDrawing = false;
+	difficulty = 0;
+	spacingX = 0;
+	spacingY = 0;
+	tolerance = 20.0f;
+	frame = 0;
+	frameStart = 0;
+	frameDelay = 100;
 }
 
 RuneSystem::~RuneSystem() {
 }
 
 void RuneSystem::openRuneMenu(int dif) {
-    isCasting = true;
-    isDrawing = false;
-    difficulty = dif;
-    connections.clear();  // Reset les connexions
+	isCasting = true;
+	isDrawing = false;
+	difficulty = dif;
+	connections.clear();  // Reset les connexions
 }
 
 std::vector<int> RuneSystem::closeRuneMenu() {
-    isCasting = false;
-    isDrawing = false;
-    return connections;
+	isCasting = false;
+	isDrawing = false;
+	return connections;
 }
 
 void RuneSystem::DrawRuneMenu() {
-    SDL_Texture* StarTex = TextureManager::LoadTexture("Assets/FX/Magic/Circle/SpriteSheetSpark2.png");
-    drawBack();
+	SDL_Texture* StarTex = TextureManager::LoadTexture("Assets/FX/Magic/Circle/SpriteSheetSpark2.png");
+	drawBack();
 
-    spacingX = 668.0f / (difficulty + 1);
-    spacingY = 640.0f / (difficulty + 1);
-    float StartSize = (spacingX - 8.0f) < 40 ? (spacingX - 8.0f) : 40;
+	spacingX = 668.0f / (difficulty + 1);
+	spacingY = 640.0f / (difficulty + 1);
+	float StartSize = (spacingX - 8.0f) < 40 ? (spacingX - 8.0f) : 40;
 
-    // Animation des étoiles (optionnel)
-    /*
-    if (SDL_GetTicks() - frameStart >= frameDelay) {
-        frameStart = SDL_GetTicks();
-        frame = (frame + 1) % 4;
-    }
-    */
-    
+	// Animation des étoiles (optionnel)
+	/*
+	if (SDL_GetTicks() - frameStart >= frameDelay) {
+		frameStart = SDL_GetTicks();
+		frame = (frame + 1) % 4;
+	}
+	*/
 
-    // Dessine les points de la grille
-    for (int i = 0; i < difficulty; i++) {
-        for (int j = 0; j < difficulty; j++) {
-            TextureManager::Draw(
-                StarTex,
-                { (float)frame * 32, 0, 32, 32 },
-                { (i + 1) * spacingX - StartSize / 2,
-                 (j + 1) * spacingY - StartSize / 2,
-                 StartSize,
-                 StartSize }
-            );
-        }
-    }
 
-    // Dessine les lignes entre points connectés
-    SDL_SetRenderDrawColor(Game::renderer, 255, 255, 0, 255);  // Jaune
-    for (int i = 0; i < (int)connections.size() - 1; i++) {
-        Tuple2f start = getPointPosition(connections[i]);
-        Tuple2f end = getPointPosition(connections[i + 1]);
-        SDL_RenderLine(Game::renderer, start.x, start.y, end.x, end.y);
-    }
+	// Dessine les points de la grille
+	for (int i = 0; i < difficulty; i++) {
+		for (int j = 0; j < difficulty; j++) {
+			TextureManager::Draw(
+				StarTex,
+				{ (float)frame * 32, 0, 32, 32 },
+				{ (i + 1) * spacingX - StartSize / 2,
+				 (j + 1) * spacingY - StartSize / 2,
+				 StartSize,
+				 StartSize }
+			);
+		}
+	}
+	//dessine les aides si jamais il y a
+	if (helpedSort != nullptr && helpedSort->pattern.size() > 0 && helpedSort->lvl == difficulty) {
+		SDL_SetRenderDrawColor(Game::renderer, 0, 0, 255, 255);  // Bleu
+		for (int i = 0; i < helpedSort->pattern.size() - 1; i++) {
+			Tuple2f start = getPointPosition(helpedSort->pattern[i]);
+			Tuple2f end = getPointPosition(helpedSort->pattern[i + 1]);
+			SDL_RenderLine(Game::renderer, start.x, start.y, end.x, end.y);
+		}
+	}
 
-    // Si on dessine actuellement, ligne vers la souris
-     SDL_SetRenderDrawColor(Game::renderer, 255, 255, 0, 255);
-     if (isDrawing && !connections.empty()) {
-         Tuple2f lastPoint = getPointPosition(connections.back());
-         if ((float)Game::event.motion.x != 0.f && (float)Game::event.motion.y != 0.f)
-         {
-             lastMousePos = Tuple2f{
-                 (float)Game::event.motion.x,
-                 (float)Game::event.motion.y
-             };
-             Tuple2f mousePos = lastMousePos;
-             SDL_RenderLine(Game::renderer, lastPoint.x, lastPoint.y, mousePos.x, mousePos.y);
-         }
-     }
+	// Dessine les lignes entre points connectés
+	SDL_SetRenderDrawColor(Game::renderer, 255, 255, 0, 255);  // Jaune
+	for (int i = 0; i < (int)connections.size() - 1; i++) {
+		Tuple2f start = getPointPosition(connections[i]);
+		Tuple2f end = getPointPosition(connections[i + 1]);
+		SDL_RenderLine(Game::renderer, start.x, start.y, end.x, end.y);
+	}
+
+	// Si on dessine actuellement, ligne vers la souris
+	SDL_SetRenderDrawColor(Game::renderer, 255, 255, 0, 255);
+	if (isDrawing && !connections.empty()) {
+		Tuple2f lastPoint = getPointPosition(connections.back());
+		if ((float)Game::event.motion.x != 0.f && (float)Game::event.motion.y != 0.f)
+		{
+			lastMousePos = Tuple2f{
+				(float)Game::event.motion.x,
+				(float)Game::event.motion.y
+			};
+			Tuple2f mousePos = lastMousePos;
+			SDL_RenderLine(Game::renderer, lastPoint.x, lastPoint.y, mousePos.x, mousePos.y);
+		}
+	}
+
+
 }
 
 void RuneSystem::drawBack() {
-    SDL_Texture* BackTex = TextureManager::LoadTexture("Assets/Ui/Dialog/FacesetBox.png");
+	SDL_Texture* BackTex = TextureManager::LoadTexture("Assets/Ui/Dialog/FacesetBox.png");
 
-    // Draw the Left upper corner
-    TextureManager::Draw(BackTex, { 0, 0, 16, 16 }, { 20, 20, 16, 16 });
-    // Draw the Right upper corner
-    TextureManager::Draw(BackTex, { 32, 0, 16, 16 }, { 632, 20, 16, 16 });
-    // Draw the Left lower corner
-    TextureManager::Draw(BackTex, { 0, 32, 16, 16 }, { 20, 604, 16, 16 });
-    // Draw the Right lower corner
-    TextureManager::Draw(BackTex, { 32, 32, 16, 16 }, { 632, 604, 16, 16 });
-    // Draw the Upper border
-    TextureManager::Draw(BackTex, { 16, 0, 16, 16 }, { 36, 20, 608, 16 });
-    // Draw the Lower border
-    TextureManager::Draw(BackTex, { 16, 32, 16, 16 }, { 36, 604, 608, 16 });
-    // Draw the Left border
-    TextureManager::Draw(BackTex, { 0, 16, 16, 16 }, { 20, 32, 16, 575 });
-    // Draw the Right border
-    TextureManager::Draw(BackTex, { 32, 16, 16, 16 }, { 632, 32, 16, 575 });
-    // Fill the center
-    TextureManager::Draw(BackTex, { 16, 16, 16, 16 }, { 36, 36, 604, 575 });
+	// Draw the Left upper corner
+	TextureManager::Draw(BackTex, { 0, 0, 16, 16 }, { 20, 20, 16, 16 });
+	// Draw the Right upper corner
+	TextureManager::Draw(BackTex, { 32, 0, 16, 16 }, { 632, 20, 16, 16 });
+	// Draw the Left lower corner
+	TextureManager::Draw(BackTex, { 0, 32, 16, 16 }, { 20, 604, 16, 16 });
+	// Draw the Right lower corner
+	TextureManager::Draw(BackTex, { 32, 32, 16, 16 }, { 632, 604, 16, 16 });
+	// Draw the Upper border
+	TextureManager::Draw(BackTex, { 16, 0, 16, 16 }, { 36, 20, 608, 16 });
+	// Draw the Lower border
+	TextureManager::Draw(BackTex, { 16, 32, 16, 16 }, { 36, 604, 608, 16 });
+	// Draw the Left border
+	TextureManager::Draw(BackTex, { 0, 16, 16, 16 }, { 20, 32, 16, 575 });
+	// Draw the Right border
+	TextureManager::Draw(BackTex, { 32, 16, 16, 16 }, { 632, 32, 16, 575 });
+	// Fill the center
+	TextureManager::Draw(BackTex, { 16, 16, 16, 16 }, { 36, 36, 604, 575 });
 }
 
 void RuneSystem::ComparePattern(std::vector<int> userPattern)
 {
 
 	std::ifstream file("Assets/Datas/sort.json");
-    json data;
+	json data;
 	file >> data;
-	std::vector<std::vector<int>> spellPatterns;
-    std::string sort;
+	std::vector<std::vector<int>> spellPattern;
+	std::string sort;
 	int minSum = 9999;
-    for (int i = difficulty; i > 1; i--) {
-		std::string levelKey = "Lvl" + std::to_string(i);
-        if (!data[levelKey].is_null()) {
+	std::vector<int> trace;
+	std::cout << std::endl;
 
-            for (auto it = data[levelKey].begin(); it != data[levelKey].end(); ++it) {
-                std::string spellName = it.key();
-                auto& patternJson = it.value();
 
-                spellPatterns = patternJson["pattern"].get<std::vector<std::vector<int>>>();
-				int sum = 0;
-				for (int j = 0; j < userPattern.size(); j++) {
-                    int id = userPattern[j];
-                    if (id % i > spellPatterns.size() - 1 || id / i > spellPatterns[id % i].size() - 1) {
-                        sum += 5;
-						continue;
-                    }
-                    sum += spellPatterns[id % i][id / i];
-				}
-                sum += abs((int)(patternJson["value"] - userPattern.size() - 1)) * 5;
-				if (sum < minSum) {
-					minSum = sum;
-					sort = spellName;
-				}
-				
-                
-            }
+	int xmin = userPattern[0] / difficulty;
+	int xmax = userPattern[0] / difficulty;
+	int ymin = userPattern[0] % difficulty;
+	int ymax = userPattern[0] % difficulty;
+	int dif = 0;
+	for (int i = 0; i < userPattern.size(); i++) {
+		xmin = userPattern[i] / difficulty < xmin ? userPattern[i] / difficulty : xmin;
+		xmax = userPattern[i] / difficulty > xmax ? userPattern[i] / difficulty : xmax;
+		ymin = userPattern[i] % difficulty < ymin ? userPattern[i] % difficulty : ymin;
+		ymax = userPattern[i] % difficulty > ymax ? userPattern[i] % difficulty : ymax;
+		std::cout << "(" << userPattern[i] / difficulty << "," << userPattern[i] % difficulty << ")\n ";
+	}
+	std::cout << "x :" << xmax - xmin << " y :" << ymax - ymin << std::endl;
+	dif = xmax - xmin > ymax - ymin ? xmax - xmin : ymax - ymin;
+	dif++;
 
-        }
-    }
-	std::cout << "Le sort le plus proche est : " << sort << " avec une différence de " << minSum << std::endl;
+
+
+	std::string levelKey = "Lvl" + std::to_string(dif);
+	std::cout << levelKey << std::endl;
+	if (!data[levelKey].is_null()) {
+		for (auto it = data[levelKey].begin(); it != data[levelKey].end(); ++it) {
+			std::string spellName = it.key();
+			auto& patternJson = it.value();
+			spellPattern = patternJson["pattern"].get<std::vector<std::vector<int>>>();
+			int sum = 0;
+			for (int j = 0; j < userPattern.size(); j++) {
+				std::cout << userPattern[j] / dif << ", " << userPattern[j] % dif << std::endl;
+				sum += spellPattern[userPattern[j] / dif][userPattern[j] % dif];
+			}
+			if (sum < minSum) {
+				minSum = sum;
+				sort = spellName;
+			}
+		}
+
+	}
+	minSum;
+	if (minSum != 9999) std::cout << "on reconnais le sort " << sort << " avec " << minSum << " points d'erreur !" << std::endl;
+	else std::cout << "Aucun sort reconnu" << std::endl;
+
 }
 
 int RuneSystem::FindClosestPoint(Vector2D screenPos) {
-    // screenPos est en coordonnées écran (0-668, 0-640)
-    for (int i = 0; i < difficulty; i++) {
-        for (int j = 0; j < difficulty; j++) {
-            float posX = (i + 1) * spacingX;
-            float posY = (j + 1) * spacingY;
-            float dist = sqrt((screenPos.x - posX) * (screenPos.x - posX) +
-                (screenPos.y - posY) * (screenPos.y - posY));
-            if (dist < tolerance) {
-                return i + j * difficulty;
-            }
-        }
-    }
-    return -1;
+	// screenPos est en coordonnées écran (0-668, 0-640)
+	for (int i = 0; i < difficulty; i++) {
+		for (int j = 0; j < difficulty; j++) {
+			float posX = (i + 1) * spacingX;
+			float posY = (j + 1) * spacingY;
+			float dist = sqrt((screenPos.x - posX) * (screenPos.x - posX) +
+				(screenPos.y - posY) * (screenPos.y - posY));
+			if (dist < tolerance) {
+				return i + j * difficulty;
+			}
+		}
+	}
+	return -1;
 }
 
 Tuple2f RuneSystem::getPointPosition(int pointId) {
-    float x = (pointId % difficulty + 1) * spacingX;
-    float y = (pointId / difficulty + 1) * spacingY;
-    Tuple2f pos = { x, y };
-    return pos;
+	float x = (pointId % difficulty + 1) * spacingX;
+	float y = (pointId / difficulty + 1) * spacingY;
+	Tuple2f pos = { x, y };
+	return pos;
 }

@@ -9,11 +9,14 @@ struct Tuple2f {
     float y;
 };
 
+class MagicHelperEffect;
+
 class RuneSystem {
 public:
     bool isCasting;
     bool isDrawing;
     int difficulty;
+    MagicHelperEffect* helpedSort = nullptr;
 
     std::vector<int> connections;
 
@@ -34,6 +37,8 @@ public:
     void DrawRuneMenu();
     void drawBack();
     void ComparePattern(std::vector<int> userPattern);
+
+	void DrawFont(std::vector<std::vector<int>> pattern);
 
     int FindClosestPoint(Vector2D screenPos);
     Tuple2f getPointPosition(int pointId);

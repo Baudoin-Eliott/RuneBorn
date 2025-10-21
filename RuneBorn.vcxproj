@@ -133,10 +133,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Character.cpp" />
     <ClCompile Include="collision.cpp" />
     <ClCompile Include="game.cpp" />
+    <ClCompile Include="Item.cpp" />
+    <ClCompile Include="MagicHelper.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="gameMap.cpp" />
+    <ClCompile Include="MainCharacter.cpp" />
     <ClCompile Include="runeSystem.cpp" />
     <ClCompile Include="textureManager.cpp" />
     <ClCompile Include="tinyxml2.cpp" />
@@ -144,14 +148,21 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cameraComponent.h" />
+    <ClInclude Include="Character.h" />
     <ClInclude Include="colliderComponent.h" />
     <ClInclude Include="collision.h" />
     <ClInclude Include="components.h" />
     <ClInclude Include="ECS.h" />
+    <ClInclude Include="Enemy.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="gameObject.h" />
+    <ClInclude Include="Item.h" />
+    <ClInclude Include="ItemEffect.h" />
+    <ClInclude Include="Items.h" />
     <ClInclude Include="keyBoardController.h" />
     <ClInclude Include="gameMap.h" />
+    <ClInclude Include="MagicHelper.h" />
+    <ClInclude Include="MainCharacter.h" />
     <ClInclude Include="runeSystem.h" />
     <ClInclude Include="tileComponent.h" />
     <ClInclude Include="tinyxml2.h" />

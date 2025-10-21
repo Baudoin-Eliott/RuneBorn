@@ -7,3 +7,4 @@
 #include "colliderComponent.h"
 #include "tileComponent.h"
 #include "cameraComponent.h"
+#include "MainCharacter.h"
