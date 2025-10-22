@@ -7,6 +7,7 @@
 
 class ColliderComponent;
 class RuneSystem;
+class Entity;
 
 class Game {
 
@@ -30,6 +31,8 @@ public:
 	void clean();
 
 	static void AddWall(float x, float y, float w, float h);
+	static void CastSpell(Entity* entity, const char* name, int power );
+
 
 	static RuneSystem runeSystem;
 	static SDL_Renderer* renderer;

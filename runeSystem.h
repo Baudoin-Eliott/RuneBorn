@@ -9,6 +9,11 @@ struct Tuple2f {
     float y;
 };
 
+struct Pattern {
+	std::vector<int> points;
+    int dif;
+};
+
 class MagicHelperEffect;
 
 class RuneSystem {
@@ -37,7 +42,7 @@ public:
     void DrawRuneMenu();
     void drawBack();
     void ComparePattern(std::vector<int> userPattern);
-
+    Pattern NormalizPattern(std::vector<int> pattern);
 	void DrawFont(std::vector<std::vector<int>> pattern);
 
     int FindClosestPoint(Vector2D screenPos);

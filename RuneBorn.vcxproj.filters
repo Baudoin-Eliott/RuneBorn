@@ -22,6 +22,12 @@
     <Filter Include="Fichiers sources\Items">
       <UniqueIdentifier>{8c7f839f-9c8d-4bea-a2c4-8e3036b22156}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Fichiers d%27en-tête\Spell">
+      <UniqueIdentifier>{aec18cdd-a02f-4a89-b517-40586ec920d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\Spell">
+      <UniqueIdentifier>{31a29d43-2d8e-49dc-a067-827099778b45}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -59,6 +65,18 @@
     </ClCompile>
     <ClCompile Include="MagicHelper.cpp">
       <Filter>Fichiers sources\Items</Filter>
+    </ClCompile>
+    <ClCompile Include="Spell.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Heal.cpp">
+      <Filter>Fichiers sources\Spell</Filter>
+    </ClCompile>
+    <ClCompile Include="SpellComponent.cpp">
+      <Filter>Fichiers sources\Spell</Filter>
+    </ClCompile>
+    <ClCompile Include="FireBall.cpp">
+      <Filter>Fichiers sources</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -113,12 +131,6 @@
     <ClInclude Include="MainCharacter.h">
       <Filter>Fichiers d%27en-tête\ECS</Filter>
     </ClInclude>
-    <ClInclude Include="Item.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="ItemEffect.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
     <ClInclude Include="MagicHelper.h">
       <Filter>Fichiers d%27en-tête\Items</Filter>
     </ClInclude>
@@ -130,6 +142,30 @@
     </ClInclude>
     <ClInclude Include="Enemy.h">
       <Filter>Fichiers d%27en-tête\ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="Spell.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="SpellEffect.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="SpellComponent.h">
+      <Filter>Fichiers d%27en-tête\ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemEffect.h">
+      <Filter>Fichiers d%27en-tête\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="Item.h">
+      <Filter>Fichiers d%27en-tête\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="Heal.h">
+      <Filter>Fichiers d%27en-tête\Spell</Filter>
+    </ClInclude>
+    <ClInclude Include="Spells.h">
+      <Filter>Fichiers d%27en-tête\Spell</Filter>
+    </ClInclude>
+    <ClInclude Include="FireBall.h">
+      <Filter>Fichiers d%27en-tête\Spell</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

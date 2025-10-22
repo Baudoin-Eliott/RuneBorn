@@ -6,6 +6,7 @@
 #include "vector2D.h"
 #include "collision.h"
 #include "Items.h"
+#include "Spell.h"
 
 GameMap* map;
 
@@ -37,13 +38,37 @@ Game::~Game() {
 
 }
 
+
+void Game::CastSpell(Entity* caster, const char* name, int power) {
+	Spell spell(caster != nullptr ? caster : &player, name, power);
+
+	if (spell.type == INSTANT) {
+		// Pas besoin d'entity
+		spell.Cast();
+	}
+	else if (spell.type == DURATION)
+	{
+		// Besoin d'entity pour duration/projectile
+		auto& spellEntity = manager.addEntity();
+		spellEntity.addComponent<SpellComponent>(caster, name, power);
+		spellEntity.addComponent<TransformComponent>();
+	}
+	else {
+		auto& spellEntity = manager.addEntity();
+		spellEntity.addComponent<SpellComponent>(caster, name, power);
+		spellEntity.addComponent<TransformComponent>();
+		spellEntity.addComponent<SpriteComponent>();
+		spellEntity.addComponent<ColliderComponent>("Spell");
+
+	}
+}
+
+
 void Game::AddWall(float x, float y, float w, float h) {
 	auto& wall(manager.addEntity());
 	wall.addComponent<TransformComponent>(x, y, w, h, 1);
 	wall.addComponent<ColliderComponent>("Wall");
 }
-
-
 
 void Game::init(const char* title, int x, int y, int width, int height, bool fullscreen) {
 

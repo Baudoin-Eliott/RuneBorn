@@ -131,6 +131,30 @@ void RuneSystem::drawBack() {
 	TextureManager::Draw(BackTex, { 16, 16, 16, 16 }, { 36, 36, 604, 575 });
 }
 
+Pattern RuneSystem::NormalizPattern(std::vector<int> pattern) {
+	int xmin = pattern[0] / difficulty;
+	int xmax = pattern[0] / difficulty;
+	int ymin = pattern[0] % difficulty;
+	int ymax = pattern[0] % difficulty;
+	int dif = 0;
+	for (int i = 0; i < pattern.size(); i++) {
+		xmin = pattern[i] / difficulty < xmin ? pattern[i] / difficulty : xmin;
+		xmax = pattern[i] / difficulty > xmax ? pattern[i] / difficulty : xmax;
+		ymin = pattern[i] % difficulty < ymin ? pattern[i] % difficulty : ymin;
+		ymax = pattern[i] % difficulty > ymax ? pattern[i] % difficulty : ymax;
+	}
+	dif = xmax - xmin > ymax - ymin ? xmax - xmin : ymax - ymin;
+	dif++;
+	for (int i = 0; i < pattern.size(); i++) {
+		pattern[i] = (pattern[i] / difficulty - xmin) * dif + (pattern[i] % difficulty - ymin);
+	}
+	Pattern p;
+	p.points = pattern;
+	p.dif = dif;
+	return p;
+}
+
+
 void RuneSystem::ComparePattern(std::vector<int> userPattern)
 {
 
@@ -143,23 +167,11 @@ void RuneSystem::ComparePattern(std::vector<int> userPattern)
 	std::vector<int> trace;
 
 	//on vient normaliser le pattern de l'utilisateur
-	int xmin = userPattern[0] / difficulty;
-	int xmax = userPattern[0] / difficulty;
-	int ymin = userPattern[0] % difficulty;
-	int ymax = userPattern[0] % difficulty;
-	int dif = 0;
-	for (int i = 0; i < userPattern.size(); i++) {
-		xmin = userPattern[i] / difficulty < xmin ? userPattern[i] / difficulty : xmin;
-		xmax = userPattern[i] / difficulty > xmax ? userPattern[i] / difficulty : xmax;
-		ymin = userPattern[i] % difficulty < ymin ? userPattern[i] % difficulty : ymin;
-		ymax = userPattern[i] % difficulty > ymax ? userPattern[i] % difficulty : ymax;
-	}
-	dif = xmax - xmin > ymax - ymin ? xmax - xmin : ymax - ymin;
-	dif++;
-	for (int i = 0; i < userPattern.size(); i++) {
-		userPattern[i] = (userPattern[i] / difficulty - xmin) * dif + (userPattern[i] % difficulty - ymin);
-	}
-	std::cout << dif << std::endl;
+	Pattern p = NormalizPattern(userPattern);
+	userPattern = p.points;
+	int dif = p.dif;
+	
+
 	//on verifie si les point correspondent a un sort
 	std::vector<int> value;
 	std::string levelKey = "Lvl" + std::to_string(dif);
@@ -253,11 +265,22 @@ void RuneSystem::ComparePattern(std::vector<int> userPattern)
 
 
 	minSum += abs((int)(value.size() - userPattern.size())) * 5;
-	std::cout << minSum << std::endl;
-	if (minSum <= 0) std::cout << "sort parfait ! On lance " << sort << std::endl;
-	else if (minSum < 10) std::cout << "sort reussi ! On lance " << sort << " avec une puissance de " << (100 - minSum * 10) << "%" << std::endl;
-	else if (minSum <= 20) std::cout << "sort " << sort << " echoue, on lance un debuff" << std::endl;
-	else std::cout << "Aucun sort reconnu, on enleve du mana" << std::endl;
+	
+	if (minSum <= 0) {
+		std::cout << "sort parfait ! On lance " << sort << std::endl;
+		Game::CastSpell(nullptr, sort.c_str(), 115);
+	}
+	else if (minSum < 10) {
+		std::cout << "sort reussi ! On lance " << sort << " avec une puissance de " << (100 - minSum * 10) << "%" << std::endl;
+		Game::CastSpell(nullptr, sort.c_str(), (100-minSum*10));
+	}
+	else if (minSum <= 20) { 
+		std::cout << "sort " << sort << " echoue, on lance un debuff" << std::endl;
+		Game::CastSpell(nullptr, sort.c_str(), -15);
+	}
+	else {
+		std::cout << "Aucun sort reconnu, on enleve du mana" << std::endl;
+	}
 }
 
 int RuneSystem::FindClosestPoint(Vector2D screenPos) {

@@ -1,4 +1,4 @@
-// ItemEffect.h
+
 #pragma once
 class Character; // Forward declaration
 

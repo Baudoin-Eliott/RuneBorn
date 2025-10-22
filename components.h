@@ -8,3 +8,4 @@
 #include "tileComponent.h"
 #include "cameraComponent.h"
 #include "MainCharacter.h"
+#include "SpellComponent.h"

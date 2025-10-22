@@ -41,6 +41,7 @@ public:
 
 	virtual ~Component() {}
 
+	Entity* getEntity() { return entity; }
 };
 
 class Entity {

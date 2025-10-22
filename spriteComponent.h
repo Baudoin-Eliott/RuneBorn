@@ -9,6 +9,7 @@ private:
 	SDL_Texture* texture;
 
 	SDL_FRect srcRect, destRect;
+
 	const int frameDelay = 150;
 
 	int frameStart;
