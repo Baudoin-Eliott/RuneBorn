@@ -178,6 +178,7 @@ void RuneSystem::ComparePattern(std::vector<int> userPattern)
 				minSum = sum;
 				sort = spellName;
 			}
+			if (minSum == 0) break;
 		}
 
 	}
