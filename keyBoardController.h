@@ -46,7 +46,7 @@ public:
 				transform->velocity.x = -1;
 				break;
 			case(SDLK_E):
-				if (Game::runeSystem.isCasting == false) Game::runeSystem.openRuneMenu(9);
+				if (Game::runeSystem.isCasting == false) Game::runeSystem.openRuneMenu(4);
 				else Game::runeSystem.closeRuneMenu();
 
 			default:

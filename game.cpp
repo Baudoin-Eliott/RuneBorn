@@ -131,8 +131,6 @@ void Game::update() {
 					runeSystem.connections.push_back(closestPoint);
 			}
 			if (closestPoint == runeSystem.connections[0] && runeSystem.connections.size() > 2) {
-				runeSystem.connections.push_back(closestPoint);
-				
 				runeSystem.ComparePattern(runeSystem.closeRuneMenu());
 			}
 		}
