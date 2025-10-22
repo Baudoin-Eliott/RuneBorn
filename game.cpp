@@ -73,7 +73,7 @@ void Game::init(const char* title, int x, int y, int width, int height, bool ful
 		MISC,
 		"La magie de soins pour les debutant !",
 		"Permet de visualiser les runes de soin.",
-		new MagicHelperEffect("FireBall", 4)
+		new MagicHelperEffect("Inventory", 4)
 	};
 	player.getComponent<MainCharacter>().PutItemInPocket(item, 1);
 

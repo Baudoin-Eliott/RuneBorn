@@ -208,15 +208,53 @@ void RuneSystem::ComparePattern(std::vector<int> userPattern)
 		for (int i = 0; i < userPattern.size(); i++) {
 			if (userPattern[i] != value[(i + indexStart < value.size()) ? (i + indexStart) : (indexStart - (value.size() - i))]) {
 				minSum += 2;
-				goodIndices.push_back(i);
+			}
+			else goodIndices.push_back(i);
+		}
+
+		if (goodIndices[0] == 0 && goodIndices[1] == userPattern.size() / 2) {
+			//on reverse le vecteur;
+			minSum = 0;
+			for (int i = 0; i < userPattern.size() / 2; i++) {
+				int temps = userPattern[i];
+				userPattern[i] = userPattern[userPattern.size()-1 - i];
+				userPattern[userPattern.size() -1- i] = temps;
+			}
+
+
+			indexStart = -1;
+			for (int i = 0; i < value.size(); i++) {
+				if (value[i] == userPattern[0]) {
+					indexStart = i;
+					break;
+				}
+			}
+			//on affiche les deux tab pour debug
+			for (int i = 0; i < userPattern.size(); i++) {
+				std::cout << userPattern[i] << " ";
+			}
+			std::cout << std::endl;
+			for (int i = 0; i < value.size(); i++) {
+				std::cout << value[i] << " ";
+			}
+			std::cout << "indiceStart: " << indexStart << std::endl;
+
+			for (int i = 0; i < userPattern.size(); i++) {
+				if (userPattern[i] != value[(i + indexStart < value.size()) ? (i + indexStart) : (indexStart - (value.size() - i))]) {
+					minSum += 2;
+					goodIndices.push_back(i);
+				}
+				else goodIndices.push_back(i);
 			}
 		}
 	}
 
+
+
 	minSum += abs((int)(value.size() - userPattern.size())) * 5;
 	std::cout << minSum << std::endl;
 	if (minSum <= 0) std::cout << "sort parfait ! On lance " << sort << std::endl;
-	else if (minSum <= 10) std::cout << "sort reussi ! On lance " << sort << " avec une puissance de " << (100 - minSum * 10) << "%" << std::endl;
+	else if (minSum < 10) std::cout << "sort reussi ! On lance " << sort << " avec une puissance de " << (100 - minSum * 10) << "%" << std::endl;
 	else if (minSum <= 20) std::cout << "sort " << sort << " echoue, on lance un debuff" << std::endl;
 	else std::cout << "Aucun sort reconnu, on enleve du mana" << std::endl;
 }
