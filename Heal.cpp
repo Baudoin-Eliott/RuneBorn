@@ -9,6 +9,8 @@ Heal::Heal(int pow) {
 
 void Heal::OnCast(Entity* spellEntity) {
 	Character& chara = spellEntity->getComponent<Character>();
+	if (&chara == nullptr)
+		return;
 	chara.health += pvRegen * (power / 100.f);
 	if (chara.health > chara.maxHealth) {
 		chara.health = chara.maxHealth;

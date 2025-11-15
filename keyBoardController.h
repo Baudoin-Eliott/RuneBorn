@@ -48,6 +48,7 @@ public:
 			case(SDLK_E):
 				if (Game::runeSystem.isCasting == false) Game::runeSystem.openRuneMenu(9);
 				else Game::runeSystem.closeRuneMenu();
+			case(SDLK_A):
 
 			default:
 				break;

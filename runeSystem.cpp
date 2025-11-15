@@ -52,6 +52,7 @@ void RuneSystem::DrawRuneMenu() {
 		frame = (frame + 1) % 4;
 	}
 	*/
+	
 
 
 	// Dessine les points de la grille

@@ -125,12 +125,10 @@ void Game::update() {
 	manager.refresh();
 	manager.update();
 	cameraEntity.update();
-	player.getComponent<MainCharacter>().Update();
 
 	bool collided = false;
 	SDL_FRect a = player.getComponent<TransformComponent>().newPos;
 	SDL_FRect playerRect = { a.x + a.w / 5, a.y + a.h, a.w * 2 - (a.w / 5) * 2, a.h };
-
 
 
 	for (auto cc : colliders) {
